@@ -8,7 +8,7 @@ export abstract class ValueObject<T> {
   protected readonly props: ValueObjectProps<T>;
 
   constructor(props: ValueObjectProps<T>) {
-    // TODO: Write guard to check empty 
+    // TODO: Write guard to check empty
     this.validate(props);
     this.props = props;
   }
