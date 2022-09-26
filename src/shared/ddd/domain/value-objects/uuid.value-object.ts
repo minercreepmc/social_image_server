@@ -8,7 +8,7 @@ export class UUID extends ID {
     return new UUID(uuidV4());
   }
 
-  protected validate({ value }: DomainPrimitive<string>): void {
+  protected guard({ value }: DomainPrimitive<string>): void {
     if (!uuidValidate(value)) {
       throw new ArgumentInvalidExeception('Incorrect UUID format');
     }

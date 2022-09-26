@@ -9,11 +9,12 @@ export abstract class ValueObject<T> {
 
   constructor(props: ValueObjectProps<T>) {
     // TODO: Write guard to check empty
-    this.validate(props);
+    this.guard(props);
     this.props = props;
   }
 
-  protected abstract validate(props: ValueObjectProps<T>): void;
+  abstract get value(): T;
+  protected abstract guard(props: ValueObjectProps<T>): void;
 
   public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) return false;

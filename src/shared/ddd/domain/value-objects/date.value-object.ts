@@ -18,7 +18,7 @@ export class DateVO extends ValueObject<Date> {
     return new DateVO(Date.now());
   }
 
-  protected validate({ value }: DomainPrimitive<Date>): void {
+  protected guard({ value }: DomainPrimitive<Date>): void {
     if (!(value instanceof Date)) {
       throw new ArgumentInvalidExeception('Incorrect date');
     }
