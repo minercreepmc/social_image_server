@@ -21,10 +21,15 @@
       "@modules/*": [
         "./src/modules/*"
       ],
+      "@ddd": [
+        "./src/shared/ddd/*"
+      ],
       "@exceptions": [
         "./src/shared/exceptions/*"
       ],
-      "@shared": ["./src/shared/*"]
+      "@shared": [
+        "./src/shared/*"
+      ]
     }
   }
 }

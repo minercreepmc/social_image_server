@@ -27,7 +27,7 @@ export class Password extends ValueObject<string> {
 
   protected guard(props: DomainPrimitive<string>): void {
     super.guard(props);
-    if(!Password.isValid(props.value)) {
+    if (!Password.isValid(props.value)) {
       throw new ArgumentInvalidExeception('Incorrect password');
     }
   }
