@@ -10,5 +10,25 @@ export class Guard {
     }
     if (value === '') return true;
 
-    return false; }
+    return false;
+  }
+
+  static lengthIsBetween(value: string, min: number, max: number) {
+    if (Guard.isEmpty(value)) {
+      throw new Error('Cannot check length of empty value');
+    }
+
+    const length = value.length;
+
+    if (min <= length && length <= max) return true;
+
+    return false;
+  }
+
+  static isMinimumLength(value: string, min: number) {
+    if (Guard.isEmpty(value))
+      throw new Error('Cannot check minimum of empty value');
+
+    return value.length >= min;
+  }
 }
