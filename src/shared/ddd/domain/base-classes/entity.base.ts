@@ -22,7 +22,7 @@ export abstract class Entity<EntityProps> {
   protected readonly props: EntityProps;
 
   constructor({ id, props }: CreateEntityProps<EntityProps>) {
-    this.guardProps(props);
+    this.guard(props);
     this.setId(id);
     const now = DateVO.now();
     this._createdAt = now;
@@ -35,13 +35,11 @@ export abstract class Entity<EntityProps> {
     this._id = id;
   }
 
-  private guardProps(props: EntityProps): void {
+  protected guard(props: EntityProps): void {
     if (Guard.isEmpty(props)) {
       throw new ArgumentNotProvidedException(
         'Entity props should not be empty',
       );
     }
   }
-
-  public abstract validate(): void;
 }

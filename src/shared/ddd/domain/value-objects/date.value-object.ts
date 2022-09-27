@@ -4,22 +4,36 @@ import {
   ValueObject,
 } from '../base-classes/value-object.base';
 
+export type DateVOValue = Date | string | number;
+
 export class DateVO extends ValueObject<Date> {
-  constructor(value: Date | string | number) {
+  constructor(value: DateVOValue) {
     const date = new Date(value);
     super({ value: date });
   }
 
-  get value(): Date {
+  public get value(): Date {
     return this.props.value;
   }
 
-  static now() {
+  public static now() {
     return new DateVO(Date.now());
   }
 
-  protected guard({ value }: DomainPrimitive<Date>): void {
-    if (!(value instanceof Date)) {
+  public static isValid(candidate: DateVOValue) {
+    if (typeof candidate === 'string') {
+      const parsed = Date.parse(candidate.trim());
+      if (!Number.isNaN(parsed)) return true;
+    } else if (candidate instanceof Date && !Number.isNaN(candidate)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  protected guard(props: DomainPrimitive<Date>): void {
+    super.guard(props);
+    if (DateVO.isValid(props.value)) {
       throw new ArgumentInvalidExeception('Incorrect date');
     }
   }
