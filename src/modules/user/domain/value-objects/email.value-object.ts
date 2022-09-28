@@ -1,12 +1,24 @@
-import {
-  DomainPrimitive,
-  ValueObject,
-} from 'src/shared/ddd/domain/base-classes/value-object.base';
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { Result } from '@ddd/domain/base-classes/result';
+import { Guard } from '@ddd/guard';
+import { ValueObject } from '@ddd/domain/base-classes/value-object.base';
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import validator from 'validator';
 
 export class Email extends ValueObject<string> {
-  constructor(value: string) {
+  public static create(value: string): Result<Email> {
+    const emailOrError = Guard.resultBulk([
+      super.guard(value),
+      Email.guard(value),
+    ]);
+
+    if (emailOrError.isFailure) {
+      return Result.fail(emailOrError.error);
+    }
+
+    return Result.ok(new Email(value));
+  }
+
+  private constructor(value: string) {
     super({ value });
   }
 
@@ -26,10 +38,11 @@ export class Email extends ValueObject<string> {
     return validator.isEmail(candidate.trim());
   }
 
-  protected guard(props: DomainPrimitive<string>): void {
-    super.guard(props);
-    if (!Email.isValid(props.value)) {
-      throw new ArgumentInvalidExeception('Incorrect email');
+  protected static guard(value: string): Result<void> {
+    if (!Email.isValid(value)) {
+      return Result.fail(new ArgumentInvalidExeception('Incorrect email'));
     }
+
+    return Result.ok();
   }
 }

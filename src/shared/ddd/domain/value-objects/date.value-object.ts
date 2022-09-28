@@ -1,4 +1,6 @@
+import { Guard } from '@ddd/guard';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { Result } from '../base-classes/result';
 import {
   DomainPrimitive,
   ValueObject,
@@ -7,9 +9,17 @@ import {
 export type DateVOValue = Date | string | number;
 
 export class DateVO extends ValueObject<Date> {
-  constructor(value: DateVOValue) {
-    const date = new Date(value);
-    super({ value: date });
+  public static create(value: DateVOValue): Result<DateVO> {
+    const result = Guard.resultBulk([
+      super.guard(value),
+      DateVO.guard(value),
+    ]);
+
+    if (result.isFailure) {
+      return Result.fail(result.error);
+    }
+
+    return Result.ok(new DateVO(value));
   }
 
   public get value(): Date {
@@ -31,10 +41,16 @@ export class DateVO extends ValueObject<Date> {
     return false;
   }
 
-  protected guard(props: DomainPrimitive<Date>): void {
-    super.guard(props);
-    if (DateVO.isValid(props.value)) {
-      throw new ArgumentInvalidExeception('Incorrect date');
+  protected static guard(value: DateVOValue): Result<DateVOValue> {
+    if (DateVO.isValid(value)) {
+      return Result.fail(new ArgumentInvalidExeception('Incorrect date'));
     }
+
+    return Result.ok(value);
+  }
+
+  private constructor(value: DateVOValue) {
+    const date = new Date(value);
+    super({ value: date });
   }
 }

@@ -2,6 +2,7 @@ import { ArgumentNotProvidedException } from 'src/shared/exceptions/argument-not
 import { Guard } from '../../guard';
 import { DateVO } from '../value-objects/date.value-object';
 import { ID } from '../value-objects/id.value-object';
+import { Result } from './result.base';
 
 export interface BaseEntityProps<T> {
   id: ID;
@@ -21,25 +22,25 @@ export abstract class Entity<EntityProps> {
   protected _updatedAt: DateVO;
   protected readonly props: EntityProps;
 
-  constructor({ id, props }: CreateEntityProps<EntityProps>) {
-    this.guard(props);
+  private constructor({ id, props }: CreateEntityProps<EntityProps>) {
     this.setId(id);
     const now = DateVO.now();
     this._createdAt = now;
     this._updatedAt = now;
     this.props = props;
-    // TODO: validate
   }
 
   private setId(id: ID): void {
     this._id = id;
   }
 
-  protected guard(props: EntityProps): void {
+  protected static guard(props: unknown): Result<void> {
     if (Guard.isEmpty(props)) {
-      throw new ArgumentNotProvidedException(
-        'Entity props should not be empty',
+      return Result.fail(
+        new ArgumentNotProvidedException('Entity props should not be empty'),
       );
     }
+
+    return Result.ok();
   }
 }

@@ -1,21 +1,34 @@
+import { Guard } from '@ddd/guard';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
-import { DomainPrimitive } from '../base-classes/value-object.base';
+import { Result } from '../base-classes/result';
+import { ValueObject } from '../base-classes/value-object.base';
 import { ID } from './id.value-object';
 
 export class UUID extends ID {
-  public static generate() {
-    return new UUID(uuidV4());
+  public static create() {
+    const uuid = uuidV4();
+    const result = Guard.resultBulk([
+      ValueObject.guard(uuid),
+      ID.guard(uuid),
+      UUID.guard(uuid),
+    ]);
+
+    if (result.isFailure) {
+      return Result.fail(result.error);
+    }
+    return Result.ok(new UUID(uuid));
+  }
+
+  protected static guard(value: string): Result<string> {
+    if (!UUID.isValid(value)) {
+      return Result.fail(new ArgumentInvalidExeception('UUID was not valid'));
+    }
+
+    return Result.ok(value);
   }
 
   public static isValid(value: string) {
     return !uuidValidate(value.trim());
-  }
-
-  protected guard(props: DomainPrimitive<string>): void {
-    super.guard(props);
-    if (!UUID.isValid(props.value)) {
-      throw new ArgumentInvalidExeception('Incorrect UUID format');
-    }
   }
 }

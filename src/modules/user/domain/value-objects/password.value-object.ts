@@ -1,13 +1,27 @@
+import { Result } from '@ddd/domain/base-classes/result';
 import {
-  DomainPrimitive,
   ValueObject,
-} from 'src/shared/ddd/domain/base-classes/value-object.base';
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+} from '@ddd/domain/base-classes/value-object.base';
+import { Guard } from '@ddd/guard';
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 
 import validator from 'validator';
 
 export class Password extends ValueObject<string> {
-  constructor(value: string) {
+  public static create(value: string): Result<Password> {
+    const result = Guard.resultBulk([
+      super.guard(value),
+      Password.guard(value),
+    ]);
+
+    if (result.isFailure) {
+      return Result.fail(result.error);
+    }
+
+    return Result.ok(new Password(value));
+  }
+
+  private constructor(value: string) {
     super({ value });
   }
 
@@ -25,10 +39,11 @@ export class Password extends ValueObject<string> {
     });
   }
 
-  protected guard(props: DomainPrimitive<string>): void {
-    super.guard(props);
-    if (!Password.isValid(props.value)) {
-      throw new ArgumentInvalidExeception('Incorrect password');
+  protected static guard(value: string): Result<void> {
+    if (!Password.isValid(value)) {
+      return Result.fail(new ArgumentInvalidExeception('Incorrect password'));
     }
+
+    return Result.ok();
   }
 }

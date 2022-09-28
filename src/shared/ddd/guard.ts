@@ -1,16 +1,55 @@
-export class Guard {
-  static isEmpty(value: unknown): boolean {
-    if (typeof value === 'number' || typeof value === 'boolean') return false;
-    if (typeof value === 'undefined' || typeof value === null) return true;
-    if (value instanceof Object && !Object.keys(value).length) return true;
-    if (Array.isArray(value)) {
-      if (value.length === 0) return true;
-      if (value.every((item) => Guard.isEmpty(item))) return true;
-      return false;
-    }
-    if (value === '') return true;
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
+import { ArgumentNotProvidedException } from '@exceptions/argument-not-provided.exception';
+import { Result } from './domain/base-classes/result';
 
-    return false;
+export class Guard {
+  static isEmpty(value: unknown): Result<void> {
+    const successOrFail = Guard.resultBulk([
+      Guard.isNullOrUndefined(value),
+      Guard.isArrayEmpty(value),
+      Guard.isEmptyString(value),
+    ]);
+
+    if (successOrFail.isFailure) {
+      return Result.fail(successOrFail.error);
+    }
+
+    return Result.ok();
+  }
+
+  static isNullOrUndefined(value: unknown): Result<void> {
+    if (typeof value === undefined || typeof value === null) {
+      return Result.fail(
+        new ArgumentNotProvidedException('Argument cannot null or undefined'),
+      );
+    }
+
+    return Result.ok();
+  }
+
+  static isArrayEmpty(value: unknown): Result<void> {
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        return Result.fail(new ArgumentInvalidExeception('Array cannot empty'));
+      }
+      if (value.every((item) => Guard.isNullOrUndefined(item))) {
+        return Result.fail(
+          new ArgumentInvalidExeception(
+            'Item of array cannot contain null or undefined',
+          ),
+        );
+      }
+    }
+
+    return Result.ok();
+  }
+
+  static isEmptyString(value: unknown): Result<void> {
+    if (value === '') {
+      return Result.fail(new ArgumentInvalidExeception('String cannot empty'));
+    }
+
+    return Result.ok();
   }
 
   static lengthIsBetween(value: string, min: number, max: number) {
@@ -30,5 +69,15 @@ export class Guard {
       throw new Error('Cannot check minimum of empty value');
 
     return value.length >= min;
+  }
+
+  static resultBulk(results: Result<any>[]): Result<void> {
+    results.forEach((result) => {
+      if (result.isFailure) {
+        return Result.fail(result.error);
+      }
+    });
+
+    return Result.ok();
   }
 }
