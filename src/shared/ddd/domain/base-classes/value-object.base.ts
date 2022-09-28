@@ -1,7 +1,7 @@
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { Exception } from '@exceptions/exception.base';
 import { ArgumentNotProvidedException } from 'src/shared/exceptions/argument-not-provided.exception';
 import { Guard } from '../../guard';
-import { Result, ResultError } from './result.base';
+import { Result } from './result.base';
 
 type Primitive = string | boolean | number;
 export interface DomainPrimitive<T extends Primitive | Date> {
@@ -24,7 +24,7 @@ export abstract class ValueObject<T> {
     return JSON.stringify(vo) === JSON.stringify(this);
   }
 
-  protected static guard(value: unknown): Result<unknown> {
+  protected static guard(value: unknown): Result<Exception> {
     if (Guard.isEmpty(value)) {
       return Result.fail(
         new ArgumentNotProvidedException(

@@ -3,6 +3,7 @@ import { Guard } from '@ddd/guard';
 import { ValueObject } from '@ddd/domain/base-classes/value-object.base';
 import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import validator from 'validator';
+import { Exception } from '@exceptions/exception.base';
 
 export class Email extends ValueObject<string> {
   public static create(value: string): Result<Email> {
@@ -38,7 +39,7 @@ export class Email extends ValueObject<string> {
     return validator.isEmail(candidate.trim());
   }
 
-  protected static guard(value: string): Result<void> {
+  protected static guard(value: string): Result<Exception> {
     if (!Email.isValid(value)) {
       return Result.fail(new ArgumentInvalidExeception('Incorrect email'));
     }

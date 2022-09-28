@@ -1,4 +1,5 @@
 import { Guard } from '@ddd/guard';
+import { Exception } from '@exceptions/exception.base';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
 import { Result } from '../base-classes/result';
@@ -20,12 +21,12 @@ export class UUID extends ID {
     return Result.ok(new UUID(uuid));
   }
 
-  protected static guard(value: string): Result<string> {
+  protected static guard(value: string): Result<Exception> {
     if (!UUID.isValid(value)) {
       return Result.fail(new ArgumentInvalidExeception('UUID was not valid'));
     }
 
-    return Result.ok(value);
+    return Result.ok();
   }
 
   public static isValid(value: string) {

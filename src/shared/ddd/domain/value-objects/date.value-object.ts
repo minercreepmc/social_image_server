@@ -1,8 +1,8 @@
 import { Guard } from '@ddd/guard';
+import { Exception } from '@exceptions/exception.base';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
 import { Result } from '../base-classes/result';
 import {
-  DomainPrimitive,
   ValueObject,
 } from '../base-classes/value-object.base';
 
@@ -10,10 +10,7 @@ export type DateVOValue = Date | string | number;
 
 export class DateVO extends ValueObject<Date> {
   public static create(value: DateVOValue): Result<DateVO> {
-    const result = Guard.resultBulk([
-      super.guard(value),
-      DateVO.guard(value),
-    ]);
+    const result = Guard.resultBulk([super.guard(value), DateVO.guard(value)]);
 
     if (result.isFailure) {
       return Result.fail(result.error);
@@ -41,7 +38,7 @@ export class DateVO extends ValueObject<Date> {
     return false;
   }
 
-  protected static guard(value: DateVOValue): Result<DateVOValue> {
+  protected static guard(value: DateVOValue): Result<Exception> {
     if (DateVO.isValid(value)) {
       return Result.fail(new ArgumentInvalidExeception('Incorrect date'));
     }

@@ -22,7 +22,7 @@ export abstract class Entity<EntityProps> {
   protected _updatedAt: DateVO;
   protected readonly props: EntityProps;
 
-  private constructor({ id, props }: CreateEntityProps<EntityProps>) {
+  protected constructor({ id, props }: CreateEntityProps<EntityProps>) {
     this.setId(id);
     const now = DateVO.now();
     this._createdAt = now;

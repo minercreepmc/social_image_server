@@ -1,8 +1,19 @@
 import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { ArgumentNotProvidedException } from '@exceptions/argument-not-provided.exception';
+import { Exception } from '@exceptions/exception.base';
 import { Result } from './domain/base-classes/result';
 
 export class Guard {
+  static resultBulk(results: Result<any>[]): Result<void> {
+    results.forEach((result) => {
+      if (result.isFailure) {
+        return Result.fail(result.error);
+      }
+    });
+
+    return Result.ok();
+  }
+
   static isEmpty(value: unknown): Result<void> {
     const successOrFail = Guard.resultBulk([
       Guard.isNullOrUndefined(value),
@@ -17,7 +28,7 @@ export class Guard {
     return Result.ok();
   }
 
-  static isNullOrUndefined(value: unknown): Result<void> {
+  static isNullOrUndefined(value: unknown): Result<Exception> {
     if (typeof value === undefined || typeof value === null) {
       return Result.fail(
         new ArgumentNotProvidedException('Argument cannot null or undefined'),
@@ -27,7 +38,7 @@ export class Guard {
     return Result.ok();
   }
 
-  static isArrayEmpty(value: unknown): Result<void> {
+  static isArrayEmpty(value: unknown): Result<Exception> {
     if (Array.isArray(value)) {
       if (value.length === 0) {
         return Result.fail(new ArgumentInvalidExeception('Array cannot empty'));
@@ -44,7 +55,7 @@ export class Guard {
     return Result.ok();
   }
 
-  static isEmptyString(value: unknown): Result<void> {
+  static isEmptyString(value: unknown): Result<Exception> {
     if (value === '') {
       return Result.fail(new ArgumentInvalidExeception('String cannot empty'));
     }
@@ -69,15 +80,5 @@ export class Guard {
       throw new Error('Cannot check minimum of empty value');
 
     return value.length >= min;
-  }
-
-  static resultBulk(results: Result<any>[]): Result<void> {
-    results.forEach((result) => {
-      if (result.isFailure) {
-        return Result.fail(result.error);
-      }
-    });
-
-    return Result.ok();
   }
 }

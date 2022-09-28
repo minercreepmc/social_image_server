@@ -1,9 +1,6 @@
-import { ExceptionBase } from '@exceptions/exception.base';
-
-export type ResultError = Error | ExceptionBase;
-
+export type ResultError<T> = string | T;
 export type ResultSuccess<T> = T;
-export type ResultValue<T> = ResultError | ResultSuccess<T>;
+export type ResultValue<T> = ResultError<T> | ResultSuccess<T>;
 export interface ResultProps<T> {
   isSuccess: boolean;
   value: ResultValue<T>;
@@ -33,8 +30,8 @@ export class Result<T> {
     return this.isResultError();
   }
 
-  public isResultError(): this is ResultError {
-    return this instanceof Error && !this.isSuccess;
+  private isResultError(): this is ResultError<T> {
+    return this instanceof Error || !this.isSuccess;
   }
 
   public static ok<U>(successValue?: ResultSuccess<U>): Result<U> {
@@ -44,7 +41,7 @@ export class Result<T> {
     });
   }
 
-  public static fail<U>(error: ResultError): Result<U> {
+  public static fail<U>(error: ResultError<U>): Result<U> {
     return new Result<U>({ isSuccess: false, value: error });
   }
 
