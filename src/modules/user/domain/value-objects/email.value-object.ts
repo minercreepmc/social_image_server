@@ -6,7 +6,7 @@ import validator from 'validator';
 import { Exception } from '@exceptions/exception.base';
 
 export class Email extends ValueObject<string> {
-  public static create(value: string): Result<Email> {
+  public static create(value: string): Result<Exception | Email> {
     const emailOrError = Guard.resultBulk([
       super.guard(value),
       Email.guard(value),

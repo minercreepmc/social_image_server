@@ -7,7 +7,7 @@ import { Exception } from '@exceptions/exception.base';
 import validator from 'validator';
 
 export class Password extends ValueObject<string> {
-  public static create(value: string): Result<Password> {
+  public static create(value: string): Result<Exception | Password> {
     const result = Guard.resultBulk([
       super.guard(value),
       Password.guard(value),

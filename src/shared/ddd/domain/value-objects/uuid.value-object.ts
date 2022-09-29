@@ -7,7 +7,7 @@ import { ValueObject } from '../base-classes/value-object.base';
 import { ID } from './id.value-object';
 
 export class UUID extends ID {
-  public static create() {
+  public static create(): Result<Exception | UUID> {
     const uuid = uuidV4();
     const result = Guard.resultBulk([
       ValueObject.guard(uuid),
