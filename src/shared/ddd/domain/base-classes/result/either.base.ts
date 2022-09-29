@@ -1,8 +1,8 @@
 export type Either<T, U> = Fail<T, U> | Success<T, U>;
 
 export class Fail<T, U> {
-  static create<T2, U2>(error: T2) {
-    return new Fail<T2, U2>(error);
+  static create<T2, U2>(resultError: T2) {
+    return new Fail<T2, U2>(resultError);
   }
 
   isFail(): this is Fail<T, U> {
@@ -31,7 +31,7 @@ export class Success<T, U> {
     return false;
   }
 
-  private constructor(private readonly value: U) {
+  private constructor(readonly value: U) {
     this.value = value;
   }
 }

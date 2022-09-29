@@ -1,7 +1,7 @@
 import { Exception } from '@exceptions/exception.base';
 import { ArgumentNotProvidedException } from 'src/shared/exceptions/argument-not-provided.exception';
 import { Guard } from '../../guard';
-import { Result } from './result.base';
+import { Result } from './result';
 
 type Primitive = string | boolean | number;
 export interface DomainPrimitive<T extends Primitive | Date> {
