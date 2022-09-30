@@ -1,1 +1,1 @@
-export * from './password.value-object';
+export * from './user-password.value-object';

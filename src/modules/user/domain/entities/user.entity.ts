@@ -4,13 +4,13 @@ import { AggregateRoot } from 'src/shared/ddd/domain/base-classes/aggregate-root
 import { CreateEntityProps } from 'src/shared/ddd/domain/base-classes/entity.base';
 import { UUID } from 'src/shared/ddd/domain/value-objects/uuid.value-object';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
-import { Email } from '../value-objects/email.value-object';
-import { Password } from '../value-objects/password.value-object';
+import { UserEmail } from '../value-objects/user-email';
+import { UserPassword } from '../value-objects/user-password';
 import { UserRole } from './user.type';
 
 export interface CreateUserProps {
-  email: Email;
-  password: Password;
+  email: UserEmail;
+  password: UserPassword;
 }
 
 export interface UserProps extends CreateUserProps {
@@ -49,7 +49,7 @@ export class UserEntity extends AggregateRoot<UserProps> {
 
   protected static guard(props: CreateUserProps): Result<Exception> {
     if (!UserEntity.isValid(props)) {
-      return Result.fail(new ArgumentInvalidExeception('Incorrect user'));
+      return Result.fail(ArgumentInvalidExeception.create('Incorrect user'));
     }
 
     return Result.ok();
