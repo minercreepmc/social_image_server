@@ -59,4 +59,3 @@ export class Guard {
     return Result.ok();
   }
 }
-

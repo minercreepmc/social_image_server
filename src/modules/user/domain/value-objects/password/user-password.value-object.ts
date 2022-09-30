@@ -5,18 +5,18 @@ import { Exception } from '@exceptions/exception.base';
 
 import validator from 'validator';
 
-export class Password extends ValueObject<string> {
-  public static create(value: string): Result<Exception | Password> {
+export class UserPassword extends ValueObject<string> {
+  public static create(value: string): Result<Exception | UserPassword> {
     const result = Result.resultBulk([
       super.guard(value),
-      Password.guard(value),
+      UserPassword.guard(value),
     ]);
 
     if (result.isFailure) {
       return Result.fail(result.error);
     }
 
-    return Result.ok(new Password(value));
+    return Result.ok(new UserPassword(value));
   }
 
   private constructor(value: string) {
@@ -38,8 +38,10 @@ export class Password extends ValueObject<string> {
   }
 
   protected static guard(value: string): Result<Exception> {
-    if (!Password.isValid(value)) {
-      return Result.fail(new ArgumentInvalidExeception('Incorrect password'));
+    if (!UserPassword.isValid(value)) {
+      return Result.fail(
+        ArgumentInvalidExeception.create('Incorrect password'),
+      );
     }
 
     return Result.ok();
