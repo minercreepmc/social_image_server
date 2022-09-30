@@ -16,7 +16,7 @@ export interface Save<Entity> {
   save(entity: Entity): Promise<Entity>;
 }
 
-export abstract class Exist{
+export abstract class Exist {
   abstract exist(field: any): Promise<boolean>;
 }
 
