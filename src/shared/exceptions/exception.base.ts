@@ -12,7 +12,6 @@ export abstract class Exception extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 
-
   toJSON(): SerializedExeption {
     return {
       message: this.message,
