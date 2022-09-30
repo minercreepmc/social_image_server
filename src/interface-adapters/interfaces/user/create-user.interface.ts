@@ -1,4 +1,4 @@
-export interface ICreateUser {
+export interface CreateUser {
   readonly email: string;
   readonly password: string;
 }
