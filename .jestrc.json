@@ -1,0 +1,18 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".spec.ts$",
+  "moduleNameMapper": {
+    "@modules/(.*)$": "<rootDir>/src/modules/$1",
+    "@exceptions/(.*)$": "<rootDir>/src/shared/exceptions/$1",
+    "@ddd/(.*)$": "<rootDir>/src/shared/ddd/$1"
+  },
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}
