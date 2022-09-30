@@ -4,8 +4,8 @@ import { ArgumentNotProvidedException } from '@exceptions/argument-not-provided.
 import { Exception } from '@exceptions/exception.base';
 import { Result } from './result';
 
-export abstract class Command<T> {
-  protected constructor(readonly dto?: RequestDTO<T>) {}
+export abstract class Command<DTO> {
+  protected constructor(readonly dto?: RequestDTO<DTO>) {}
 
   protected static guard(props: unknown): Result<Exception> {
     if (Guard.isEmpty(props)) {
