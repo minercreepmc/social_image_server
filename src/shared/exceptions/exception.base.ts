@@ -6,12 +6,12 @@ export interface SerializedExeption {
 }
 
 export abstract class Exception extends Error {
-  constructor(readonly message: string, readonly metadata?: unknown) {
+  readonly code: string;
+  protected constructor(readonly message: string, readonly metadata?: unknown) {
     super(message);
     Error.captureStackTrace(this, this.constructor);
   }
 
-  abstract readonly code: string;
 
   toJSON(): SerializedExeption {
     return {
