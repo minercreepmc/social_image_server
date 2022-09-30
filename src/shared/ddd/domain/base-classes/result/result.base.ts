@@ -45,7 +45,7 @@ export class Result<T> {
     return new Result<U>({ isSuccess: false, value: error });
   }
 
-  private constructor(props: ResultProps<T>) {
+  protected constructor(props: ResultProps<T>) {
     const { isSuccess, value } = props;
     this.isSuccess = isSuccess;
     this._value = value;

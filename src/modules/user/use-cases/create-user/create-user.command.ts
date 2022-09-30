@@ -1,4 +1,4 @@
-import { Command } from '@ddd/domain/base-classes/command.base';
+import { Command } from '@ddd/domain/base-classes/command';
 import { Result } from '@ddd/domain/base-classes/result';
 import { CreateUserRequestDTO } from './create-user.request.dto';
 
