@@ -1,6 +1,5 @@
 import { Fail, Result } from '@ddd/domain/base-classes/result';
 import { UseCase } from '@ddd/domain/base-classes/use-case';
-import { Guard } from '@ddd/guard';
 import { UnexpectedException } from '@exceptions/unexpected.exception';
 import { Email } from '@modules/user/domain/value-objects/email.value-object';
 import { Password } from '@modules/user/domain/value-objects/password.value-object';
@@ -21,7 +20,7 @@ export class CreateUserUseCase
     const emailOrError = Email.create(command?.email);
     const passwordOrError = Password.create(command?.email);
 
-    const dtoResult = Guard.resultBulk([emailOrError, passwordOrError]);
+    const dtoResult = Result.resultBulk([emailOrError, passwordOrError]);
 
     if (dtoResult.isFailure) {
       return Fail.create(Result.fail(dtoResult.error));

@@ -1,4 +1,3 @@
-import { Guard } from '@ddd/guard';
 import { Exception } from '@exceptions/exception.base';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
@@ -9,7 +8,7 @@ import { ID } from './id.value-object';
 export class UUID extends ID {
   public static create(): Result<Exception | UUID> {
     const uuid = uuidV4();
-    const result = Guard.resultBulk([
+    const result = Result.resultBulk([
       ValueObject.guard(uuid),
       ID.guard(uuid),
       UUID.guard(uuid),

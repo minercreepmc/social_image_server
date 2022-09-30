@@ -1,4 +1,3 @@
-import { Guard } from '@ddd/guard';
 import { Exception } from '@exceptions/exception.base';
 import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
 import { Result } from '../base-classes/result';
@@ -8,7 +7,7 @@ export type DateVOValue = Date | string | number;
 
 export class DateVO extends ValueObject<Date> {
   public static create(value: DateVOValue): Result<Exception | DateVO> {
-    const result = Guard.resultBulk([super.guard(value), DateVO.guard(value)]);
+    const result = Result.resultBulk([super.guard(value), DateVO.guard(value)]);
 
     if (result.isFailure) {
       return Result.fail(result.error);

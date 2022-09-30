@@ -1,6 +1,5 @@
 import { Result } from '@ddd/domain/base-classes/result';
 import { ValueObject } from '@ddd/domain/base-classes/value-object.base';
-import { Guard } from '@ddd/guard';
 import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { Exception } from '@exceptions/exception.base';
 
@@ -8,7 +7,7 @@ import validator from 'validator';
 
 export class Password extends ValueObject<string> {
   public static create(value: string): Result<Exception | Password> {
-    const result = Guard.resultBulk([
+    const result = Result.resultBulk([
       super.guard(value),
       Password.guard(value),
     ]);

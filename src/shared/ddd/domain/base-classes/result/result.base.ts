@@ -31,7 +31,17 @@ export class Result<T> {
   }
 
   private isResultError(): this is ResultError<T> {
-    return this instanceof Error || !this.isSuccess;
+    return !this.isSuccess;
+  }
+
+  public static resultBulk(results: Result<any>[]): Result<void> {
+    results.forEach((result) => {
+      if (result.isFailure) {
+        return Result.fail(result.error);
+      }
+    });
+
+    return Result.ok();
   }
 
   public static ok<U>(successValue?: ResultSuccess<U>): Result<U> {

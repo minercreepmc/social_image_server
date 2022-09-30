@@ -1,5 +1,4 @@
 import { Result } from '@ddd/domain/base-classes/result';
-import { Guard } from '@ddd/guard';
 import { Exception } from '@exceptions/exception.base';
 import { AggregateRoot } from 'src/shared/ddd/domain/base-classes/aggregate-root.base';
 import { CreateEntityProps } from 'src/shared/ddd/domain/base-classes/entity.base';
@@ -22,7 +21,7 @@ export class UserEntity extends AggregateRoot<UserProps> {
   protected readonly _id: UUID;
 
   public static create(createProps: CreateUserProps): Result<UserEntity> {
-    const result = Guard.resultBulk([
+    const result = Result.resultBulk([
       super.guard(createProps),
       UserEntity.guard(createProps),
     ]);

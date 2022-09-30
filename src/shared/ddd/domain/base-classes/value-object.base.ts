@@ -1,5 +1,5 @@
 import { Exception } from '@exceptions/exception.base';
-import { ArgumentNotProvidedException } from 'src/shared/exceptions/argument-not-provided.exception';
+import { ArgumentNotProvidedException } from '@exceptions/argument-not-provided.exception';
 import { Guard } from '../../guard';
 import { Result } from './result';
 
@@ -27,12 +27,12 @@ export abstract class ValueObject<T> {
   protected static guard(value: unknown): Result<Exception> {
     if (Guard.isEmpty(value)) {
       return Result.fail(
-        new ArgumentNotProvidedException(
+        ArgumentNotProvidedException.create(
           'Value object prop cannot be null or undefined',
         ),
       );
     }
 
-    return Result.ok<unknown>(value);
+    return Result.ok();
   }
 }
