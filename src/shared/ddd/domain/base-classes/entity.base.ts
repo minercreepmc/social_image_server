@@ -1,9 +1,8 @@
 import { Exception } from '@exceptions/exception.base';
-import { ArgumentNotProvidedException } from 'src/shared/exceptions/argument-not-provided.exception';
 import { Guard } from '../../guard';
 import { DateVO } from '../value-objects/date.value-object';
 import { ID } from '../value-objects/id.value-object';
-import { Result } from './result.base';
+import { Result } from './result';
 
 export interface BaseEntityProps<T> {
   id: ID;
@@ -36,10 +35,9 @@ export abstract class Entity<EntityProps> {
   }
 
   protected static guard(props: unknown): Result<Exception> {
-    if (Guard.isEmpty(props)) {
-      return Result.fail(
-        new ArgumentNotProvidedException('Entity props should not be empty'),
-      );
+    const guardResult = Guard.isEmpty(props);
+    if (guardResult.isFailure) {
+      return guardResult;
     }
 
     return Result.ok();

@@ -34,13 +34,12 @@ export class Result<T> {
     return !this.isSuccess;
   }
 
-  public static resultBulk(results: Result<any>[]): Result<void> {
-    results.forEach((result) => {
+  public static resultBulk(results: Result<any>[]): Result<any> {
+    for (const result of results) {
       if (result.isFailure) {
-        return Result.fail(result.error);
+        return result;
       }
-    });
-
+    }
     return Result.ok();
   }
 

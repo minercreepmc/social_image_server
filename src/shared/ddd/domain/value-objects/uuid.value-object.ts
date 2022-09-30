@@ -22,7 +22,9 @@ export class UUID extends ID {
 
   protected static guard(value: string): Result<Exception> {
     if (!UUID.isValid(value)) {
-      return Result.fail(new ArgumentInvalidExeception('UUID was not valid'));
+      return Result.fail(
+        ArgumentInvalidExeception.create('UUID was not valid'),
+      );
     }
 
     return Result.ok();

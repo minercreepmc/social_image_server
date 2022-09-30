@@ -1,22 +1,21 @@
 import { Result } from '@ddd/domain/base-classes/result';
-import { Guard } from '@ddd/guard';
 import { ValueObject } from '@ddd/domain/base-classes/value-object.base';
 import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import validator from 'validator';
 import { Exception } from '@exceptions/exception.base';
 
-export class Email extends ValueObject<string> {
-  public static create(value: string): Result<Exception | Email> {
-    const emailOrError = Guard.resultBulk([
+export class UserEmail extends ValueObject<string> {
+  public static create(value: string): Result<Exception | UserEmail> {
+    const guardResult = Result.resultBulk([
       super.guard(value),
-      Email.guard(value),
+      UserEmail.guard(value),
     ]);
 
-    if (emailOrError.isFailure) {
-      return Result.fail(emailOrError.error);
+    if (guardResult.isFailure) {
+      return Result.fail(guardResult.error);
     }
 
-    return Result.ok(new Email(value));
+    return Result.ok(new UserEmail(value));
   }
 
   private constructor(value: string) {
@@ -40,8 +39,8 @@ export class Email extends ValueObject<string> {
   }
 
   protected static guard(value: string): Result<Exception> {
-    if (!Email.isValid(value)) {
-      return Result.fail(new ArgumentInvalidExeception('Incorrect email'));
+    if (!UserEmail.isValid(value)) {
+      return Result.fail(ArgumentInvalidExeception.create('Incorrect email'));
     }
 
     return Result.ok();

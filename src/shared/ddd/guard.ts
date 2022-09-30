@@ -4,15 +4,15 @@ import { Exception } from '@exceptions/exception.base';
 import { Result } from './domain/base-classes/result';
 
 export class Guard {
-  static isEmpty(value: unknown): Result<void> {
-    const successOrFail = Result.resultBulk([
+  static isEmpty(value: unknown): Result<Exception> {
+    const emptyResult = Result.resultBulk([
       Guard.isNullOrUndefined(value),
       Guard.isArrayEmpty(value),
       Guard.isEmptyString(value),
     ]);
 
-    if (successOrFail.isFailure) {
-      return Result.fail(successOrFail.error);
+    if (emptyResult.isFailure) {
+      return Result.fail(emptyResult.error);
     }
 
     return Result.ok();
@@ -59,3 +59,4 @@ export class Guard {
     return Result.ok();
   }
 }
+
