@@ -21,6 +21,9 @@
       "@modules/*": [
         "./src/modules/*"
       ],
+      "@interfaces/*": [
+        "./src/interface-adapters/interfaces/*"
+      ],
       "@ddd/*": [
         "./src/shared/ddd/*"
       ],

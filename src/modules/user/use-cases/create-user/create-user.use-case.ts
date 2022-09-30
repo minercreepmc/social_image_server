@@ -18,7 +18,5 @@ export class CreateUserUseCase
     if (dtoResult.isFailure) {
       return Fail.create(Result.fail(dtoResult.error));
     }
-
-
   }
 }
