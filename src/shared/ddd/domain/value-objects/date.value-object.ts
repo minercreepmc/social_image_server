@@ -1,5 +1,5 @@
 import { Exception } from '@exceptions/exception.base';
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { Result } from '../base-classes/result';
 import { ValueObject } from '../base-classes/value-object.base';
 
@@ -37,10 +37,10 @@ export class DateVO extends ValueObject<Date> {
 
   protected static guard(value: DateVOValue): Result<Exception> {
     if (DateVO.isValid(value)) {
-      return Result.fail(new ArgumentInvalidExeception('Incorrect date'));
+      return Result.fail(ArgumentInvalidExeception.create('Incorrect date'));
     }
 
-    return Result.ok(value);
+    return Result.ok();
   }
 
   private constructor(value: DateVOValue) {

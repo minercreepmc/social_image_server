@@ -1,9 +1,9 @@
 import { Result } from '@ddd/domain/base-classes/result';
 import { Exception } from '@exceptions/exception.base';
-import { AggregateRoot } from 'src/shared/ddd/domain/base-classes/aggregate-root.base';
-import { CreateEntityProps } from 'src/shared/ddd/domain/base-classes/entity.base';
-import { UUID } from 'src/shared/ddd/domain/value-objects/uuid.value-object';
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { AggregateRoot } from '@ddd/domain/base-classes/aggregate-root.base';
+import { CreateEntityProps } from '@ddd/domain/base-classes/entity.base';
+import { UUID } from '@ddd/domain/value-objects/uuid.value-object';
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { UserEmail } from '../value-objects/user-email';
 import { UserPassword } from '../value-objects/user-password';
 import { UserRole } from './user.type';

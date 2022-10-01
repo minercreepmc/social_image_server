@@ -1,5 +1,5 @@
 import { Exception } from '@exceptions/exception.base';
-import { ArgumentInvalidExeception } from 'src/shared/exceptions/argument-invalid.exception';
+import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
 import { Result } from '../base-classes/result';
 import { ValueObject } from '../base-classes/value-object.base';
