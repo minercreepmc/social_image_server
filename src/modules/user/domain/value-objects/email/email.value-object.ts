@@ -4,18 +4,18 @@ import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exceptio
 import validator from 'validator';
 import { Exception } from '@exceptions/exception.base';
 
-export class UserEmail extends ValueObject<string> {
-  public static create(value: string): Result<Exception | UserEmail> {
+export class Email extends ValueObject<string> {
+  public static create(value: string): Result<Exception | Email> {
     const guardResult = Result.resultBulk([
       super.guard(value),
-      UserEmail.guard(value),
+      Email.guard(value),
     ]);
 
     if (guardResult.isFailure) {
       return Result.fail(guardResult.error);
     }
 
-    return Result.ok(new UserEmail(value));
+    return Result.ok(new Email(value));
   }
 
   private constructor(value: string) {
@@ -39,7 +39,7 @@ export class UserEmail extends ValueObject<string> {
   }
 
   protected static guard(value: string): Result<Exception> {
-    if (!UserEmail.isValid(value)) {
+    if (!Email.isValid(value)) {
       return Result.fail(ArgumentInvalidExeception.create('Incorrect email'));
     }
 
