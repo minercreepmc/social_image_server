@@ -3,7 +3,6 @@ import { Exception } from '@exceptions/exception.base';
 import { AggregateRoot } from '@ddd/domain/base-classes/aggregate-root.base';
 import { CreateEntityProps } from '@ddd/domain/base-classes/entity.base';
 import { UUID } from '@ddd/domain/value-objects/uuid.value-object';
-import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import { UserEmail } from '../value-objects/user-email';
 import { UserPassword } from '../value-objects/user-password';
 import { UserRole } from './user.type';
@@ -25,11 +24,13 @@ export class UserEntity extends AggregateRoot<UserProps> {
       super.guard(createProps),
       UserEntity.guard(createProps),
     ]);
+
     if (result.isFailure) {
       return Result.fail(result.error);
     }
 
     const uuidOrError = UUID.create();
+    console.log(uuidOrError);
 
     if (uuidOrError.isFailure) {
       return Result.fail(uuidOrError.error);
@@ -42,16 +43,7 @@ export class UserEntity extends AggregateRoot<UserProps> {
     return Result.ok(newUser);
   }
 
-  public static isValid(candidate: object) {
-    if (!(candidate instanceof UserEntity)) return false;
-    return true;
-  }
-
   protected static guard(props: CreateUserProps): Result<Exception> {
-    if (!UserEntity.isValid(props)) {
-      return Result.fail(ArgumentInvalidExeception.create('Incorrect user'));
-    }
-
     return Result.ok();
   }
 

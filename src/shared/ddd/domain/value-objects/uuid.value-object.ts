@@ -31,6 +31,6 @@ export class UUID extends ID {
   }
 
   public static isValid(value: string) {
-    return !uuidValidate(value.trim());
+    return uuidValidate(value.trim());
   }
 }
