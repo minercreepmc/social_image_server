@@ -3,7 +3,7 @@ import { UseCase } from '@ddd/domain/base-classes/use-case';
 import { UnexpectedException } from '@exceptions/unexpected.exception';
 import { Email } from '@modules/user/domain/value-objects/email.value-object';
 import { Password } from '@modules/user/domain/value-objects/password.value-object';
-import { UserRepository } from '@modules/user/infrastructure/database/user.repository';
+import { UserRepositoryPort } from '@modules/user/infrastructure/database/user.repository.port';
 import { CommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from './create-user.command';
 import { CreateUserErrors } from './create-user.error';
@@ -14,16 +14,16 @@ import { CreateUserResponseDTO } from './create-user.response.dto';
 export class CreateUserUseCase
   implements UseCase<CreateUserRequestDTO, CreateUserResponseDTO>
 {
-  constructor(private readonly repository: UserRepository) {}
+  constructor(private readonly repository: UserRepositoryPort) {}
 
   async execute(command?: CreateUserCommand): CreateUserResponseDTO {
     const emailOrError = Email.create(command?.email);
     const passwordOrError = Password.create(command?.email);
 
-    const dtoResult = Result.resultBulk([emailOrError, passwordOrError]);
+    const commandResult = Result.resultBulk([emailOrError, passwordOrError]);
 
-    if (dtoResult.isFailure) {
-      return Fail.create(Result.fail(dtoResult.error));
+    if (commandResult.isFailure) {
+      return Fail.create(commandResult);
     }
 
     const email = emailOrError.value;

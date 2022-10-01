@@ -24,8 +24,8 @@
       "@interfaces/*": [
         "./src/interface-adapters/interfaces/*"
       ],
-      "@ddd/*": [
-        "./src/shared/ddd/*"
+      "@core/*": [
+        "./src/shared/core/*"
       ],
       "@exceptions/*": [
         "./src/shared/exceptions/*"

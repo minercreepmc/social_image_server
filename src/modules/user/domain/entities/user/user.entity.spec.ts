@@ -1,12 +1,12 @@
-import { Result } from '@ddd/domain/base-classes/result';
+import { Result } from '@core/domain/base-classes/result';
 import { Email } from '../../value-objects/email';
-import { Password } from '../../value-objects/password';
+import { BasePassword } from '../../value-objects/password';
 import { UserEntity } from './user.entity';
 
 describe('user entity', () => {
   it('Should be able to create a valid user', () => {
     const emailOrError = Email.create('valid@example.com');
-    const passwordOrError = Password.create('StrongPassword123++');
+    const passwordOrError = BasePassword.create('StrongPassword123++');
 
     const valueObjectResult = Result.resultBulk([
       emailOrError,

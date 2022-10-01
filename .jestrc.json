@@ -10,7 +10,7 @@
   "moduleNameMapper": {
     "@modules/(.*)$": "<rootDir>/src/modules/$1",
     "@exceptions/(.*)$": "<rootDir>/src/shared/exceptions/$1",
-    "@ddd/(.*)$": "<rootDir>/src/shared/ddd/$1"
+    "@core/(.*)$": "<rootDir>/src/shared/core/$1"
   },
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"

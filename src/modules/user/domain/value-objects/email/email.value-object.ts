@@ -1,5 +1,5 @@
-import { Result } from '@ddd/domain/base-classes/result';
-import { ValueObject } from '@ddd/domain/base-classes/value-object.base';
+import { Result } from '@core/domain/base-classes/result';
+import { ValueObject } from '@core/domain/base-classes/value-object.base';
 import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
 import validator from 'validator';
 import { Exception } from '@exceptions/exception.base';

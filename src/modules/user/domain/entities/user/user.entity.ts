@@ -1,15 +1,15 @@
-import { Result } from '@ddd/domain/base-classes/result';
+import { Result } from '@core/domain/base-classes/result';
 import { Exception } from '@exceptions/exception.base';
-import { AggregateRoot } from '@ddd/domain/base-classes/aggregate-root.base';
-import { CreateEntityProps } from '@ddd/domain/base-classes/entity.base';
-import { UUID } from '@ddd/domain/value-objects/uuid.value-object';
+import { AggregateRoot } from '@core/domain/base-classes/aggregate-root.base';
+import { CreateEntityProps } from '@core/domain/base-classes/entity.base';
+import { UUID } from '@core/domain/value-objects/uuid.value-object';
 import { Email } from '../../value-objects/email';
-import { Password } from '../../value-objects/password';
+import { BasePassword } from '../../value-objects/password';
 import { UserRole } from './user.type';
 
 export interface CreateUserProps {
   email: Email;
-  password: Password;
+  password: BasePassword;
 }
 
 export interface UserProps extends CreateUserProps {
