@@ -1,13 +1,9 @@
-import { Exception } from './exception.base';
+import { BaseException } from './exception.base';
 import { ExeceptionCodes } from './exception.codes';
 
-export class UnexpectedException extends Exception {
+export class UnexpectedException extends BaseException {
+  readonly code = ExeceptionCodes.unexpected;
   public static create(message: string) {
     return new UnexpectedException(message);
   }
-
-  private constructor(readonly message: string) {
-    super(message);
-  }
-  readonly code = ExeceptionCodes.unexpected;
 }

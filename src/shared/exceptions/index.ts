@@ -1,5 +1,4 @@
-export * from './exception.base';
-export * from './exception.codes';
+export * from './exception.interface';
 export * from './unexpected.exception';
 export * from './argument-invalid.exception';
 export * from './argument-not-provided.exception';

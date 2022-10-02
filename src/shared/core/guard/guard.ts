@@ -1,14 +1,16 @@
-import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
-import { ArgumentNotProvidedException } from '@exceptions/argument-not-provided.exception';
-import { Exception } from '@exceptions/exception.base';
-import { Result } from './domain/base-classes/result';
+import { Result } from '@core/domain/base-classes/result';
+import {
+  Exception,
+  ArgumentInvalidExeception,
+  ArgumentNotProvidedException,
+} from '@exceptions';
 
-export class Guard {
+export class GuardUtils {
   static isEmpty(value: unknown): Result<Exception> {
     const emptyResult = Result.resultBulk([
-      Guard.isNullOrUndefined(value),
-      Guard.isArrayEmpty(value),
-      Guard.isEmptyString(value),
+      GuardUtils.isNullOrUndefined(value),
+      GuardUtils.isArrayEmpty(value),
+      GuardUtils.isEmptyString(value),
     ]);
 
     if (emptyResult.isFailure) {
@@ -37,7 +39,7 @@ export class Guard {
           ArgumentInvalidExeception.create('Array cannot empty'),
         );
       }
-      if (value.every((item) => Guard.isNullOrUndefined(item))) {
+      if (value.every((item) => GuardUtils.isNullOrUndefined(item))) {
         return Result.fail(
           ArgumentInvalidExeception.create(
             'Item of array cannot contain null or undefined',
