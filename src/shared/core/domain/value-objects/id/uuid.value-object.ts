@@ -1,5 +1,5 @@
 import { Result } from '@core/domain/base-classes/result';
-import { ID } from '../id.value-object';
+import { ID } from './id.value-object';
 import { Exception, ArgumentInvalidExeception } from '@exceptions';
 import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
 
