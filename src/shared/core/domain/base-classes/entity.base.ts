@@ -1,8 +1,8 @@
-import { Exception } from '@exceptions/exception.base';
-import { Guard } from '../../guard';
-import { DateVO } from '../value-objects/date.value-object';
-import { ID } from '../value-objects/id.value-object';
+import { Exception } from '@exceptions';
+import { Guard, GuardUtils } from '@core/guard';
 import { Result } from './result';
+import { ID } from '../value-objects/id';
+import { DateVO } from '../value-objects/date';
 
 export interface BaseEntityProps<T> {
   id: ID;
@@ -16,7 +16,7 @@ export interface CreateEntityProps<T> {
   props: T;
 }
 
-export abstract class Entity<EntityProps> {
+export abstract class Entity<EntityProps> implements Guard {
   protected abstract _id: ID;
   private readonly _createdAt: DateVO;
   protected _updatedAt: DateVO;
@@ -34,12 +34,12 @@ export abstract class Entity<EntityProps> {
     this._id = id;
   }
 
-  protected static guard(props: unknown): Result<Exception> {
-    const guardResult = Guard.isEmpty(props);
+  public guard(): Result<Exception | Entity<EntityProps>> {
+    const guardResult = GuardUtils.isEmpty(this);
     if (guardResult.isFailure) {
       return guardResult;
     }
 
-    return Result.ok();
+    return Result.ok(this);
   }
 }

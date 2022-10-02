@@ -1,48 +1,38 @@
 import { Result } from '@core/domain/base-classes/result';
 import { ValueObject } from '@core/domain/base-classes/value-object.base';
-import { ArgumentInvalidExeception } from '@exceptions/argument-invalid.exception';
+import { Exception, ArgumentInvalidExeception } from '@exceptions';
+import { Email } from './email.interface';
 import validator from 'validator';
-import { Exception } from '@exceptions/exception.base';
 
-export class Email extends ValueObject<string> {
-  public static create(value: string): Result<Exception | Email> {
-    const guardResult = Result.resultBulk([
-      super.guard(value),
-      Email.guard(value),
-    ]);
-
-    if (guardResult.isFailure) {
-      return Result.fail(guardResult.error);
-    }
-
-    return Result.ok(new Email(value));
-  }
-
-  private constructor(value: string) {
-    super({ value });
-  }
-
+export class BaseEmail extends ValueObject<string> implements Email {
   get value(): string {
     return this.props.value;
   }
 
-  get name(): string {
-    return this.value.substring(0, this.value.indexOf('@'));
+  public static create(value: string): Result<Exception | Email> {
+    const email = new BaseEmail(value);
+    return email.guard();
   }
 
-  get domain(): string {
-    return this.value.substring(this.value.indexOf('@') + 1, this.name.length);
-  }
-
-  public static isValid(candidate: string) {
-    return validator.isEmail(candidate.trim());
-  }
-
-  protected static guard(value: string): Result<Exception> {
-    if (!Email.isValid(value)) {
+  public guard(): Result<Exception | BaseEmail> {
+    if (!BaseEmail.isValid(this)) {
       return Result.fail(ArgumentInvalidExeception.create('Incorrect email'));
     }
 
-    return Result.ok();
+    return Result.ok(this);
+  }
+
+  public static isValid(candidate: string | Email) {
+    let parsedCandidate: string;
+    if (typeof candidate === 'string') {
+      parsedCandidate = candidate.trim();
+    } else if (candidate instanceof BaseEmail) {
+      parsedCandidate = candidate.value;
+    }
+    return validator.isEmail(parsedCandidate);
+  }
+
+  private constructor(value: string) {
+    super({ value });
   }
 }
