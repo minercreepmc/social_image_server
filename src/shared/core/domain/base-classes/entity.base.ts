@@ -22,6 +22,15 @@ export abstract class Entity<EntityProps> implements Guard {
   protected _updatedAt: DateVO;
   protected readonly props: EntityProps;
 
+  public guard(): Result<Exception | Entity<EntityProps>> {
+    const guardResult = GuardUtils.isEmpty(this);
+    if (guardResult.isFailure) {
+      return guardResult;
+    }
+
+    return Result.ok(this);
+  }
+
   protected constructor({ id, props }: CreateEntityProps<EntityProps>) {
     this.setId(id);
     const now = DateVO.now();
@@ -32,14 +41,5 @@ export abstract class Entity<EntityProps> implements Guard {
 
   private setId(id: ID): void {
     this._id = id;
-  }
-
-  public guard(): Result<Exception | Entity<EntityProps>> {
-    const guardResult = GuardUtils.isEmpty(this);
-    if (guardResult.isFailure) {
-      return guardResult;
-    }
-
-    return Result.ok(this);
   }
 }

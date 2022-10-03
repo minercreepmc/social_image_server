@@ -1,11 +1,11 @@
 import { Result } from '@core/domain/base-classes/result';
-import { Email } from '../../value-objects/email';
+import { BaseEmail } from '../../value-objects/email';
 import { BasePassword } from '../../value-objects/password';
 import { UserEntity } from './user.entity';
 
 describe('user entity', () => {
   it('Should be able to create a valid user', () => {
-    const emailOrError = Email.create('valid@example.com');
+    const emailOrError = BaseEmail.create('valid@example.com');
     const passwordOrError = BasePassword.create('StrongPassword123++');
 
     const valueObjectResult = Result.resultBulk([
