@@ -27,8 +27,8 @@
       "@core/*": [
         "./src/shared/core/*"
       ],
-      "@exceptions/*": [
-        "./src/shared/exceptions/*"
+      "@exceptions": [
+        "./src/shared/exceptions"
       ],
       "@shared/*": [
         "./src/shared/*"

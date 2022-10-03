@@ -9,7 +9,7 @@
   "testRegex": ".spec.ts$",
   "moduleNameMapper": {
     "@modules/(.*)$": "<rootDir>/src/modules/$1",
-    "@exceptions/(.*)$": "<rootDir>/src/shared/exceptions/$1",
+    "@exceptions$": "<rootDir>/src/shared/exceptions",
     "@core/(.*)$": "<rootDir>/src/shared/core/$1"
   },
   "transform": {
